@@ -31,7 +31,7 @@ export default function Feedback() {
       }),
     });
 
-    const result = await res.json();
+    const result = await res.text();
     console.log(result);
 
     // Navigate to thank you
