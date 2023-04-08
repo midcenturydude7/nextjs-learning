@@ -3,6 +3,14 @@ import { getPostData, getSortedPostsData } from "@/lib/posts";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
+export function generateStaticParams() {
+  const posts = getSortedPostsData(); //deduped!
+
+  return posts.map((post) => ({
+    postId: post.id,
+  }));
+}
+
 export function generateMetadata({ params }: { params: { postId: string } }) {
   const posts = getSortedPostsData(); //deduped!
   const { postId } = params;
@@ -37,11 +45,10 @@ export default async function Post({ params }: { params: { postId: string } }) {
       <h1 className="text-3xl mt-4 mb-0">{title}</h1>
       <p className="mt-0">{pubDate}</p>
       <article>
-        <section dangerouslySetInnerHTML={{ __html: contentHtml }}>
-          <p>
-            <Link href="/">🔙 Back to home</Link>
-          </p>
-        </section>
+        <section dangerouslySetInnerHTML={{ __html: contentHtml }} />
+        <p>
+          <Link href="/">← Back to home</Link>
+        </p>
       </article>
     </main>
   );
